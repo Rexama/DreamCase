@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Code.Buttons;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Code.Panels
 {
     public class LevelsPanel : MonoBehaviour
     {
         private GameObject _levelsPanel;
-        
+
         private void Awake()
         {
             LevelsButton.OnLevelsButtonClickedEvent += ShowLevelsPanel;
