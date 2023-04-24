@@ -11,7 +11,9 @@ namespace _Code.LevelCard
         [SerializeField] GameObject levelCardPrefab;
         private List<LevelCard> _levelCards;
         private LevelDataURLs _levelDataURLs;
+        private List<LevelFolderData> _downloadedLevelFolderData = new List<LevelFolderData>();
 
+        
         private void Awake()
         {
             CacheComponents();
@@ -26,7 +28,9 @@ namespace _Code.LevelCard
         {
             _levelCards = new List<LevelCard>(GetComponentsInChildren<LevelCard>());
             _levelDataURLs = Resources.Load<LevelDataURLs>("LevelDataURLs");
+            //_downloadedLevelFolderData = LevelFolderReader.GetDownloadedLevelFolderData();
         }
+        
 
         private void SetUpLevelCards()
         {

@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using _Code.Game.Block;
 using UnityEngine;
 
 namespace _Code.LevelFolder
@@ -39,7 +42,7 @@ namespace _Code.LevelFolder
                             levelData.MoveCount = int.Parse(value);
                             break;
                         case "grid":
-                            levelData.Grid = value.Split(',');
+                            levelData.Grid = GetBlockArray(value.Split(','));
                             break;
                         default:
                             Debug.LogWarning("Unknown key in level data file: " + key);
@@ -59,6 +62,31 @@ namespace _Code.LevelFolder
         {
             string persistentDataPath = Application.persistentDataPath;
             return Directory.GetFiles(persistentDataPath).Length;
+        }
+        
+        private static List<BlockType> GetBlockArray(string[] grid)
+        {
+            List<BlockType> blockTypes = new List<BlockType>();
+            
+            foreach (var color in grid)
+            {
+                switch (color)
+                {
+                    case "b":
+                        blockTypes.Add(BlockType.Blue);
+                        break;
+                    case "g":
+                        blockTypes.Add(BlockType.Green);
+                        break;
+                    case "r":
+                        blockTypes.Add(BlockType.Red);
+                        break;
+                    case "y":
+                        blockTypes.Add(BlockType.Yellow);
+                        break;
+                }
+            }
+            return blockTypes;
         }
     }
 }

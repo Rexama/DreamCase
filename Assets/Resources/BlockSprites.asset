@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ab7ac741d44548e48b59261464942, type: 3}
+  m_Name: BlockSprites
+  m_EditorClassIdentifier: 
+  redBlockSprite: {fileID: 21300000, guid: a2b3113eb08731d4896506711f9ea90c, type: 3}
+  greenBlockSprite: {fileID: 21300000, guid: 65c4222d8f031694bba3b4e2155339d3, type: 3}
+  blueBlockSprite: {fileID: 21300000, guid: 8f79ff5a3c0c2e940944b09ae1103a9d, type: 3}
+  yellowBlockSprite: {fileID: 21300000, guid: 013f6fd6cd057fb438f0526c95d29e6b, type: 3}
+  tickBlockSprite: {fileID: 21300000, guid: fcec301f753c10948925a0a1452a9217, type: 3}

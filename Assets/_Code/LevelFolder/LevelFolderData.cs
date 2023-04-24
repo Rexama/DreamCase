@@ -1,4 +1,7 @@
-﻿namespace _Code.LevelFolder
+﻿using System.Collections.Generic;
+using _Code.Game.Block;
+
+namespace _Code.LevelFolder
 {
     public struct LevelFolderData
     {
@@ -6,9 +9,9 @@
         public int GridWidth;
         public int GridHeight;
         public int MoveCount;
-        public string[] Grid;
+        public List<BlockType> Grid;
 
-        public LevelFolderData(int levelNumber, int gridWidth, int gridHeight, int moveCount, string[] grid)
+        public LevelFolderData(int levelNumber, int gridWidth, int gridHeight, int moveCount, List<BlockType> grid)
         {
             LevelNumber = levelNumber;
             GridWidth = gridWidth;
