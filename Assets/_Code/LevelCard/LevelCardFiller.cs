@@ -10,7 +10,7 @@ namespace _Code.LevelCard
     {
         [SerializeField] GameObject levelCardPrefab;
         private List<LevelCard> _levelCards;
-        private LevelDataURLs _levelDataURLs;
+        private LevelFolderURLs _levelFolderUrLs;
         private List<LevelFolderData> _downloadedLevelFolderData = new List<LevelFolderData>();
 
         
@@ -27,7 +27,7 @@ namespace _Code.LevelCard
         private void CacheComponents()
         {
             _levelCards = new List<LevelCard>(GetComponentsInChildren<LevelCard>());
-            _levelDataURLs = Resources.Load<LevelDataURLs>("LevelDataURLs");
+            _levelFolderUrLs = Resources.Load<LevelFolderURLs>("LevelDataURLs");
             //_downloadedLevelFolderData = LevelFolderReader.GetDownloadedLevelFolderData();
         }
         
@@ -40,7 +40,7 @@ namespace _Code.LevelCard
             for (int level = 1; level < _levelCards.Count+1; level++)
             {
                 var levelCard = _levelCards[level - 1];
-                var levelPath = _levelDataURLs.GetLevelPath(level);
+                var levelPath = _levelFolderUrLs.GetLevelPath(level);
                 var levelFileData = LevelFolderReader.ReadLevelData(levelPath);
                 var isLocked = level > latestUnlockedLevel;
                 var highScore = PlayerPrefs.GetInt($"HS_{level}", -1);

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Code.LevelFolder
 {
     [CreateAssetMenu(fileName = "LevelDataURLs", menuName = "Data/LevelDataURLs", order = 0)]
-    public class LevelDataURLs : ScriptableObject
+    public class LevelFolderURLs : ScriptableObject
     {
         public int localStoredLevelCount;
         public string coreURL;

@@ -24,7 +24,7 @@ namespace _Code.Game.Block
                     return blueBlockSprite;
                 case BlockType.Yellow:
                     return yellowBlockSprite;
-                case BlockType.Tick:
+                case BlockType.Complete:
                     return tickBlockSprite;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

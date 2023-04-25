@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Code.Game.Block;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Code.Game.Board
@@ -7,25 +9,39 @@ namespace _Code.Game.Board
     public class BoardSwipeHandler : MonoBehaviour
     {
         [SerializeField] float minSwipeDistance = 25f;
+        [SerializeField] float swipeDuration = 0.5f;
 
         private Board _board;
-
+        private Camera _camera;
+        private BlockItem[] _blocks;
+        private BoardScoreHandler _boardScoreHandler;
+        
+        private bool _canSwipe = true;
         private Vector2 _swipeStartPos;
         private bool _isSwiping = false;
-        private bool _canSwipe = true;
         private BlockItem _selectedBlockItem;
-
-
+        
+        public static Action OnSwipe;
+        
         private void Awake()
         {
+            CacheComponents();
+        }
+
+        private void CacheComponents()
+        {
             _board = GetComponent<Board>();
+            _blocks = _board.Blocks;
+            _camera = Camera.main;
+            _boardScoreHandler = GetComponent<BoardScoreHandler>();
+            
         }
 
         private void Update()
         {
-            HandleMouseInput();
+            if(_canSwipe) HandleMouseInput();
         }
-
+        
         void HandleMouseInput()
         {
             if (Input.GetMouseButtonDown(0))
@@ -43,7 +59,7 @@ namespace _Code.Game.Board
         {
             _swipeStartPos = Input.mousePosition;
 
-            var hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) as BoxCollider2D;
+            var hit = Physics2D.OverlapPoint(_camera.ScreenToWorldPoint(Input.mousePosition)) as BoxCollider2D;
 
             if (hit != null)
             {
@@ -63,54 +79,45 @@ namespace _Code.Game.Board
 
             if (Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y))
             {
-                TrySwapBlocks(_selectedBlockItem, swipeDirection.x > 0 ? Direction.Right : Direction.Left);
+                TrySwipeBlocks(_selectedBlockItem, swipeDirection.x > 0 ? Direction.Right : Direction.Left);
             }
             else
             {
-                TrySwapBlocks(_selectedBlockItem, swipeDirection.y > 0 ? Direction.Up : Direction.Down);
+                TrySwipeBlocks(_selectedBlockItem, swipeDirection.y > 0 ? Direction.Up : Direction.Down);
             }
             _isSwiping = false;
         }
 
-        public void TrySwapBlocks(BlockItem blockItem, Direction direction)
+
+        private void TrySwipeBlocks(BlockItem blockItem, Direction direction)
         {
-            var blocks = _board.Blocks;
-            var levelData = _board.LevelData;
-
-            var index = blocks.IndexOf(blockItem);
-            BlockItem otherBlock;
-
-            switch (direction)
-            {
-                case Direction.Right when index != blocks.Count:
-                    otherBlock = blocks[index + 1];
-                    break;
-                case Direction.Left when index != 0:
-                    otherBlock = blocks[index - 1];
-                    break;
-                case Direction.Up when index < blocks.Count - levelData.GridWidth:
-                    otherBlock = blocks[index + levelData.GridWidth];
-                    break;
-                case Direction.Down when index >= levelData.GridWidth:
-                    otherBlock = blocks[index - levelData.GridWidth];
-                    break;
-                default:
-                    return;
-            }
-
-            SwipeBlocks(blockItem, blocks, otherBlock, index);
+            var index = Array.IndexOf(_blocks, blockItem);
+            var otherBlock = _board.GetBlockNeighbour(blockItem, direction);
+            
+            if(otherBlock.BlockType == BlockType.Complete) return;
+            
+            SwipeBlocks(blockItem, otherBlock, index);
         }
 
-        private static void SwipeBlocks(BlockItem blockItem, List<BlockItem> blocks, BlockItem otherBlock, int index)
+        private void SwipeBlocks(BlockItem blockItem, BlockItem otherBlock, int index)
         {
+            OnSwipe?.Invoke();
+            
             var tempPos = blockItem.transform.position;
-            var otherIndex = blocks.IndexOf(otherBlock);
+            var otherIndex = Array.IndexOf(_blocks, otherBlock);
 
-            blockItem.DoSwipeBlock(otherBlock.transform.position);
-            otherBlock.DoSwipeBlock(tempPos);
+            blockItem.DoSwipeBlock(otherBlock.transform.position, swipeDuration);
+            otherBlock.DoSwipeBlock(tempPos, swipeDuration);
 
-            blocks[index] = otherBlock;
-            blocks[otherIndex] = blockItem;
+            _blocks[index] = otherBlock;
+            _blocks[otherIndex] = blockItem;
+
+            _canSwipe = false;
+            DOTween.Sequence().AppendInterval(swipeDuration).OnComplete(() =>
+            {
+                _boardScoreHandler.CheckSwappedBlockRows(index, otherIndex);
+                _canSwipe = true;
+            });
         }
     }
 }

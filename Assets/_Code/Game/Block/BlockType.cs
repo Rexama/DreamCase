@@ -8,6 +8,6 @@ namespace _Code.Game.Block
         Green,
         Blue,
         Yellow,
-        Tick,
+        Complete,
     }
 }
