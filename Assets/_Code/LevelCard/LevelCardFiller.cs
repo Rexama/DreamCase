@@ -13,7 +13,7 @@ namespace _Code.LevelCard
         private LevelFolderURLs _levelFolderUrLs;
         private List<LevelFolderData> _downloadedLevelFolderData = new List<LevelFolderData>();
 
-        
+
         private void Awake()
         {
             CacheComponents();
@@ -30,14 +30,19 @@ namespace _Code.LevelCard
             _levelFolderUrLs = Resources.Load<LevelFolderURLs>("LevelDataURLs");
             //_downloadedLevelFolderData = LevelFolderReader.GetDownloadedLevelFolderData();
         }
-        
+
 
         private void SetUpLevelCards()
         {
             CreateDownloadedLevelCards();
+            
+            if (!PlayerPrefs.HasKey("LatestUnlockedLevel"))
+            {
+                PlayerPrefs.SetInt("LatestUnlockedLevel", 1);
+            }
             var latestUnlockedLevel = PlayerPrefs.GetInt("LatestUnlockedLevel", 1);
 
-            for (int level = 1; level < _levelCards.Count+1; level++)
+            for (int level = 1; level < _levelCards.Count + 1; level++)
             {
                 var levelCard = _levelCards[level - 1];
                 var levelPath = _levelFolderUrLs.GetLevelPath(level);
@@ -45,9 +50,10 @@ namespace _Code.LevelCard
                 var isLocked = level > latestUnlockedLevel;
                 var highScore = PlayerPrefs.GetInt($"HS_{level}", -1);
 
-                var newLevelCardData = new LevelCardData(levelFileData.LevelNumber, levelFileData.MoveCount, highScore, isLocked);
-                
-                levelCard.SetUpLevelCard(newLevelCardData);
+                var newLevelCardData = new LevelCardData(levelFileData.LevelNumber, levelFileData.MoveCount, highScore,
+                    isLocked);
+
+                levelCard.SetUpLevelCard(newLevelCardData, levelFileData);
             }
         }
 

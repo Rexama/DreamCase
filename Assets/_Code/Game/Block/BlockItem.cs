@@ -1,13 +1,13 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace _Code.Game.Block
 {
     public class BlockItem : MonoBehaviour
     {
-        private BlockType _blockType;
-        public BlockType BlockType => _blockType;
+        public BlockType BlockType { get; private set; }
         
         private BlockSprites _blockSprites;
         private SpriteRenderer _spriteRenderer;
@@ -30,7 +30,7 @@ namespace _Code.Game.Block
             transform.localPosition = pos;
             _spriteRenderer.sortingOrder = (int) (transform.localPosition.y + 5);
             _spriteRenderer.sprite = _blockSprites.GetSprite(blockType);
-            _blockType = blockType;
+            BlockType = blockType;
         }
         
         public void DoSwipeBlock(Vector2 position, float duration)
@@ -41,11 +41,17 @@ namespace _Code.Game.Block
             });
         }
         
+        public void DoPunchBlock(Direction direction)
+        {
+            var punch = direction.GetDirectionVector() * 0.25f;
+            transform.DOPunchPosition(punch, 0.3f, 10, 0.1f);
+        }
+        
         public void CompleteBlock()
         {
             _spriteRenderer.sprite = _blockSprites.GetSprite(BlockType.Complete);
             _spriteRenderer.transform.localScale = Vector3.one * 4f;
-            _blockType = BlockType.Complete;
+            BlockType = BlockType.Complete;
             _collider2D.enabled = false;
         }
     }

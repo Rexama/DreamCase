@@ -12,9 +12,8 @@ namespace _Code.Game.Board
     {
         [SerializeField] GameObject blockPrefab;
 
-        private BlockItem[] _blocks;
-        public BlockItem[] Blocks => _blocks;
-
+        public BlockItem[] Blocks { get; private set; }
+        
         private LevelFolderData _levelData;
         public LevelFolderData LevelData => _levelData;
 
@@ -34,9 +33,9 @@ namespace _Code.Game.Board
         private void CacheComponents()
         {
             _border = GetComponentInChildren<Border>();
-            _levelData = LevelFolderReader.ReadLevelData("Assets/Resources/Levels/RM_A2");
+            _levelData = LevelFolderDataHolder.Instance.LevelFolderData;
             _blocksParent = transform.Find("Blocks");
-            _blocks = new BlockItem[_levelData.GridWidth * _levelData.GridHeight];
+            Blocks = new BlockItem[_levelData.GridWidth * _levelData.GridHeight];
         }
 
         private void PrepareBoard()
@@ -55,25 +54,25 @@ namespace _Code.Game.Board
                     block.PrepareBlock(_levelData.Grid[row * _levelData.GridWidth + col], pos);
 
                     block.name = "Block " + row + "," + col;
-                    _blocks[row * _levelData.GridWidth + col] = block;
+                    Blocks[row * _levelData.GridWidth + col] = block;
                 }
             }
         }
         
         public BlockItem GetBlockNeighbour(BlockItem block, Direction direction)
         {
-            var index = Array.IndexOf(_blocks, block);
+            var index = Array.IndexOf(Blocks, block);
             
             switch (direction)
             {
-                case Direction.Right when index != _blocks.Length:
-                    return _blocks[index + 1];
-                case Direction.Left when index != 0:
-                    return _blocks[index - 1];
-                case Direction.Up when index < _blocks.Length - _levelData.GridWidth:
-                    return _blocks[index + _levelData.GridWidth];
+                case Direction.Right when index != Blocks.Length && index % _levelData.GridWidth != _levelData.GridWidth - 1:
+                    return Blocks[index + 1];
+                case Direction.Left when index != 0 && index % _levelData.GridWidth != 0:
+                    return Blocks[index - 1];
+                case Direction.Up when index < Blocks.Length - _levelData.GridWidth:
+                    return Blocks[index + _levelData.GridWidth];
                 case Direction.Down when index >= _levelData.GridWidth:
-                    return _blocks[index - _levelData.GridWidth];
+                    return Blocks[index - _levelData.GridWidth];
                 default:
                     return null;
             }

@@ -1,15 +1,18 @@
 ﻿using System;
 using _Code.Game.Block;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace _Code.Game.Board
 {
     public class BoardScoreHandler : MonoBehaviour
     {
-        
+        public int Score { get; private set; }
+
         private int _width;
         private Board _board;
         private BlockScores _blockScores;
+        private BoardGameEndHandler _boardGameEndHandler;
         
         public static Action<int> OnRowCompleted;
 
@@ -22,6 +25,7 @@ namespace _Code.Game.Board
         {
             _board = GetComponent<Board>();
             _width = _board.LevelData.GridWidth;
+            _boardGameEndHandler = GetComponent<BoardGameEndHandler>();
             _blockScores = Resources.Load<BlockScores>("BlockScores");
         }
 
@@ -36,6 +40,7 @@ namespace _Code.Game.Board
             {
                 CheckSwappedBlockRow(rowFirstIndex2);
             }
+            _boardGameEndHandler.CheckGameEnd();
         }
 
         private void CheckSwappedBlockRow(int rowStartIndex)
@@ -59,6 +64,7 @@ namespace _Code.Game.Board
             }
             
             OnRowCompleted?.Invoke(blockScore * _width);
+            Score += blockScore * _width;
         }
     }
 }

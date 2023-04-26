@@ -1,3 +1,5 @@
+using _Code.Buttons;
+using _Code.LevelFolder;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +8,7 @@ namespace _Code.LevelCard
 {
     public class LevelCard : MonoBehaviour
     {
-        private Button _playButton;
+        private PlayButton _playButton;
         private TextMeshProUGUI _levelAndMovesText;
         private TextMeshProUGUI _highestScoreText;
 
@@ -17,18 +19,19 @@ namespace _Code.LevelCard
 
         private void CacheComponents()
         {
-            _playButton = GetComponentInChildren<Button>();
+            _playButton = GetComponentInChildren<PlayButton>();
             _levelAndMovesText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             _highestScoreText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         }
 
-        public void SetUpLevelCard(LevelCardData levelCardData)
+        public void SetUpLevelCard(LevelCardData levelCardData,LevelFolderData levelFolderData)
         {
             _levelAndMovesText.text = $"Level {levelCardData.Level} - {levelCardData.Moves} Moves";
-
+            _playButton.SetLevelFolderData(levelFolderData);
+            
             if (levelCardData.IsLocked)
             {
-                _playButton.interactable = false;
+                _playButton.SetInteractable(false);
                 _highestScoreText.text = "Locked Level";
                 return;
             }

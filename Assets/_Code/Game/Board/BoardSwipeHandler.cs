@@ -94,9 +94,14 @@ namespace _Code.Game.Board
             var index = Array.IndexOf(_blocks, blockItem);
             var otherBlock = _board.GetBlockNeighbour(blockItem, direction);
             
-            if(otherBlock.BlockType == BlockType.Complete) return;
-            
-            SwipeBlocks(blockItem, otherBlock, index);
+            if(otherBlock != null && otherBlock.BlockType != BlockType.Complete)
+            {
+                SwipeBlocks(blockItem, otherBlock, index);
+            }
+            else
+            {
+                blockItem.DoPunchBlock(direction);
+            }
         }
 
         private void SwipeBlocks(BlockItem blockItem, BlockItem otherBlock, int index)

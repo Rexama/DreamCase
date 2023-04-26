@@ -13,6 +13,7 @@ namespace _Code.Panels
         private void Awake()
         {
             LevelsButton.OnLevelsButtonClickedEvent += ShowLevelsPanel;
+            ContinueButton.OnContinueButtonPressed += ShowLevelsPanel;
             
             CacheComponents();
         }

@@ -11,10 +11,19 @@ namespace _Code.Buttons
 
         private void Awake()
         {
+            ContinueButton.OnContinueButtonPressed += ActivateButton;
             CacheComponents();
             AddListeners();
         }
-        
+
+        private void Start()
+        {
+            if(PlayerPrefs.HasKey("New_HS") && PlayerPrefs.GetInt("New_HS") > 0)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
         private void CacheComponents()
         {
             _button = GetComponent<Button>();
@@ -28,6 +37,11 @@ namespace _Code.Buttons
         private void OnLevelsButtonClicked()
         {
             OnLevelsButtonClickedEvent?.Invoke();
+        }
+        
+        private void ActivateButton()
+        {
+            gameObject.SetActive(true);
         }
     }
 }
