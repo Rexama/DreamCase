@@ -39,6 +39,8 @@ namespace _Code.Game.Block
             {
                 _spriteRenderer.sortingOrder = (int) (transform.localPosition.y + 5);
             });
+            
+            //transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
         }
         
         public void DoPunchBlock(Direction direction)

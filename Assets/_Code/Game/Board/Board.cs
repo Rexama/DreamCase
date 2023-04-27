@@ -42,8 +42,8 @@ namespace _Code.Game.Board
         {
             _border.SetBorderSize(_levelData.GridWidth, _levelData.GridHeight);
 
-            var parentPos = new Vector3((_levelData.GridWidth - 1) * -0.5f, (_levelData.GridHeight - 1) * -0.5f, 90);
-            _blocksParent.transform.position = parentPos;
+            var parentPos = new Vector3((_levelData.GridWidth - 1) * -0.5f, (_levelData.GridHeight - 1) * -0.5f, 0);
+            _blocksParent.transform.localPosition = parentPos;
             
             for (int row = 0; row < _levelData.GridHeight; row++)
             {
@@ -75,6 +75,19 @@ namespace _Code.Game.Board
                     return Blocks[index - _levelData.GridWidth];
                 default:
                     return null;
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                
+                var parentPos = new Vector3((_levelData.GridWidth - 1) * -0.5f, (_levelData.GridHeight - 1) * -0.5f, 90);
+                Debug.Log(parentPos);
+                Debug.Log(_blocksParent.transform.position);
+                
+                _blocksParent.transform.localPosition = parentPos;
             }
         }
     }

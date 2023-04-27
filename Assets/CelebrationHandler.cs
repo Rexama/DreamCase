@@ -27,6 +27,11 @@ public class CelebrationHandler : MonoBehaviour
         
         CacheComponents();
     }
+    
+    private void OnDisable()
+    {
+        ContinueButton.OnContinueButtonPressed -= CloseCelebration;
+    }
 
     private void Start()
     {
@@ -83,6 +88,9 @@ public class CelebrationHandler : MonoBehaviour
     
     private void CloseCelebration()
     {
-        parent.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+        PlayerPrefs.SetInt("New_HS", 0);
     }
+
+    
 }

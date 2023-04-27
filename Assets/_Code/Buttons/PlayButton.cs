@@ -1,12 +1,14 @@
 ﻿using System;
 using _Code.LevelFolder;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace _Code.Buttons
 {
-    public class PlayButton : MonoBehaviour
+    public class PlayButton : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     {
         private Button _button;
         private LevelFolderData _levelFolderData;
@@ -40,7 +42,17 @@ namespace _Code.Buttons
         private void OnPlayButtonClicked()
         {
             LevelFolderDataHolder.Instance.SetLevelFolderData(_levelFolderData);
-            SceneManager.LoadScene("LevelScene 1");
+            SceneManager.LoadScene("LevelScene3-Good");
+        }
+        
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            transform.DOScale(0.9f, 0.1f).SetEase(Ease.InOutSine);
+        }
+        
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            transform.DOScale(1f, 0.1f).SetEase(Ease.InOutSine);
         }
     }
 }

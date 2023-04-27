@@ -9,6 +9,7 @@ namespace _Code.Panels
     public class LevelsPanel : MonoBehaviour
     {
         private GameObject _levelsPanel;
+        private static bool _firstLoad = true;
 
         private void Awake()
         {
@@ -16,16 +17,27 @@ namespace _Code.Panels
             ContinueButton.OnContinueButtonPressed += ShowLevelsPanel;
             
             CacheComponents();
+            OpenPanelIfNotFirstLoad();
         }
 
         private void OnDestroy()
         {
             LevelsButton.OnLevelsButtonClickedEvent -= ShowLevelsPanel;
+            ContinueButton.OnContinueButtonPressed -= ShowLevelsPanel;
         }
 
         private void CacheComponents()
         {
             _levelsPanel = transform.GetChild(0).gameObject;
+        }
+
+        public void OpenPanelIfNotFirstLoad()
+        {
+            if (!_firstLoad)
+            {
+                ShowLevelsPanel();
+            }
+            _firstLoad = false;
         }
         
         public void ShowLevelsPanel()
