@@ -1,7 +1,6 @@
 ﻿using System;
 using _Code.Game.Block;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace _Code.Game.Board
 {

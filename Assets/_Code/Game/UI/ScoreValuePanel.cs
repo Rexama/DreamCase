@@ -1,5 +1,4 @@
-﻿using System;
-using _Code.Game.Board;
+﻿using _Code.Game.Board;
 using TMPro;
 using UnityEngine;
 

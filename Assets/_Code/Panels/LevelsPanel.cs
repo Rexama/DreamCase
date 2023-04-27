@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using _Code.Buttons;
+﻿using _Code.Buttons;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _Code.Panels
 {
@@ -33,7 +30,7 @@ namespace _Code.Panels
 
         public void OpenPanelIfNotFirstLoad()
         {
-            if (!_firstLoad)
+            if (!_firstLoad && PlayerPrefs.GetInt("New_HS", 0) <= 0)
             {
                 ShowLevelsPanel();
             }

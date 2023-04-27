@@ -1,5 +1,4 @@
-﻿using System;
-using _Code.LevelFolder;
+﻿using _Code.LevelFolder;
 using TMPro;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using _Code.Game.Board;
+﻿using _Code.Game.Board;
 using _Code.LevelFolder;
 using TMPro;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace _Code.Game.UI
             BoardSwipeHandler.OnSwipe += DecreaseMoveCount;
             
             CacheComponents();
-            SetMoveCountText(_moveCount);
+            UpdateMoveCountText();
         }
 
         private void OnDisable()
@@ -30,7 +29,7 @@ namespace _Code.Game.UI
             _moveCount = LevelFolderDataHolder.Instance.LevelFolderData.MoveCount;
         }
 
-        private void SetMoveCountText(int value)
+        private void UpdateMoveCountText()
         {
             _moveCountText.text = _moveCount.ToString();
         }
@@ -38,7 +37,7 @@ namespace _Code.Game.UI
         private void DecreaseMoveCount()
         {
             _moveCount--;
-            SetMoveCountText(_moveCount);
+            UpdateMoveCountText();
         }
     }
 }

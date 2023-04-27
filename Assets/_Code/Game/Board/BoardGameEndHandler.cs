@@ -1,5 +1,4 @@
-﻿using System;
-using _Code.LevelFolder;
+﻿using _Code.LevelFolder;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,8 +27,8 @@ namespace _Code.Game.Board
         {
             var level = LevelFolderDataHolder.Instance.LevelFolderData.LevelNumber;
             
-            
-            
+            if(level >= PlayerPrefs.GetInt("LatestUnlockedLevel"))
+                PlayerPrefs.SetInt("LatestUnlockedLevel", level + 1);
 
             if (PlayerPrefs.HasKey("HS_" + level))
             {

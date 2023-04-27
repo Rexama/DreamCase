@@ -1,5 +1,4 @@
-﻿using System;
-using _Code.LevelFolder;
+﻿using _Code.LevelFolder;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;

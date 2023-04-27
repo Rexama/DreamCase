@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using _Code.Game.Block;
 using _Code.LevelFolder;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 namespace _Code.Game.Board
 {
