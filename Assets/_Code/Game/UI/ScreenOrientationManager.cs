@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Code.Game.UI
@@ -15,8 +16,8 @@ namespace _Code.Game.UI
 
         private float _prevScreenWidth = Screen.width;
         private float _prevHeight = Screen.height;
-
-        private void Awake()
+        
+        private void Start()
         {
             HandleScreenOrientation();
         }

@@ -12,7 +12,7 @@ namespace _Code.LevelFolder
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            _levelFolderData = LevelFolderReader.ReadLevelData("Assets/Resources/Levels/deneme");
+            _levelFolderData = LevelFolderReader.ReadLevelData("Assets/Resources/Levels/RM_A1");
         }
 
         public void SetLevelFolderData(LevelFolderData levelFolderData)

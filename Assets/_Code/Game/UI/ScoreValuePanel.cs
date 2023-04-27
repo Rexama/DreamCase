@@ -12,7 +12,7 @@ namespace _Code.Game.UI
 
         private void Awake()
         {
-            BoardScoreHandler.OnRowCompleted += IncreaseScore;
+            BoardScoreHandler.OnScoreGain += IncreaseScore;
             
             _scoreText = GetComponentInChildren<TextMeshProUGUI>();
             SetScoreText(_score);
@@ -20,7 +20,7 @@ namespace _Code.Game.UI
 
         private void OnDisable()
         {
-            BoardScoreHandler.OnRowCompleted -= IncreaseScore;
+            BoardScoreHandler.OnScoreGain -= IncreaseScore;
         }
 
         private void SetScoreText(int score)

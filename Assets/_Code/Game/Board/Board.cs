@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Code.Game.Block;
 using _Code.LevelFolder;
 using UnityEngine;
+using UnityEngine.Android;
 
 namespace _Code.Game.Board
 {
@@ -10,6 +12,7 @@ namespace _Code.Game.Board
         [SerializeField] GameObject blockPrefab;
 
         public BlockItem[] Blocks { get; private set; }
+        public List<Dictionary<BlockType, int>> RowBlockCounts = new List<Dictionary<BlockType, int>>();
         
         private LevelFolderData _levelData;
         public LevelFolderData LevelData => _levelData;
@@ -25,6 +28,9 @@ namespace _Code.Game.Board
         void Start()
         {
             PrepareBoard();
+
+            // TODO: Remove this
+            //PrintDic();
         }
 
         private void CacheComponents()
@@ -44,6 +50,7 @@ namespace _Code.Game.Board
             
             for (int row = 0; row < _levelData.GridHeight; row++)
             {
+                var newRowCounts= new Dictionary<BlockType, int>();
                 for (int col = 0; col < _levelData.GridWidth; col++)
                 {
                     var pos = new Vector2(col, row);
@@ -52,7 +59,17 @@ namespace _Code.Game.Board
 
                     block.name = "Block " + row + "," + col;
                     Blocks[row * _levelData.GridWidth + col] = block;
+                    
+                    if (newRowCounts.ContainsKey(block.BlockType))
+                    {
+                        newRowCounts[block.BlockType]++;
+                    }
+                    else
+                    {
+                        newRowCounts.Add(block.BlockType, 1);
+                    }
                 }
+                RowBlockCounts.Add(newRowCounts);
             }
         }
         
@@ -75,16 +92,57 @@ namespace _Code.Game.Board
             }
         }
 
-        private void Update()
+        public void UpdateBlocksArray(BlockItem block1, BlockItem block2)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            var index1 = Array.IndexOf(Blocks, block1);
+            var index2 = Array.IndexOf(Blocks, block2);
+
+            var rowIndex1 = index1 / _levelData.GridWidth;
+            var rowIndex2 = index2 / _levelData.GridWidth;
+            
+            RowBlockCounts[rowIndex1][block1.BlockType]--;
+            RowBlockCounts[rowIndex2][block2.BlockType]--;
+            
+            AddToDictionary(block2.BlockType, rowIndex1);
+            AddToDictionary(block1.BlockType, rowIndex2);
+            
+            
+            Blocks[index1] = block2;
+            Blocks[index2] = block1;
+
+            //PrintDic();
+        }
+        
+        public void UpdateRowBlockCountsOnRowComplete(int rowStartIndex,BlockType blockType)
+        {
+            var rowIndex = rowStartIndex / _levelData.GridWidth;
+            RowBlockCounts[rowIndex][blockType]-= _levelData.GridWidth;
+        }
+
+        private void AddToDictionary(BlockType blockType, int index)
+        {
+            if (RowBlockCounts[index].ContainsKey(blockType))
             {
-                
-                var parentPos = new Vector3((_levelData.GridWidth - 1) * -0.5f, (_levelData.GridHeight - 1) * -0.5f, 90);
-                Debug.Log(parentPos);
-                Debug.Log(_blocksParent.transform.position);
-                
-                _blocksParent.transform.localPosition = parentPos;
+                RowBlockCounts[index][blockType]++;
+            }
+            else
+            {
+                RowBlockCounts[index].Add(blockType, 1);
+            }
+        }
+
+        
+        //TODO: Remove this
+        private void PrintDic()
+        {
+            // TODO: Remove this
+            foreach (var element in RowBlockCounts)
+            {
+                foreach (var key in element.Keys)
+                {
+                    Debug.Log(key+" : "+element[key]);   
+                }
+                Debug.Log("----");
             }
         }
     }

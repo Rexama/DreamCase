@@ -90,12 +90,12 @@ namespace _Code.Game.Board
 
         private void TrySwipeBlocks(BlockItem blockItem, Direction direction)
         {
-            var index = Array.IndexOf(_blocks, blockItem);
+            
             var otherBlock = _board.GetBlockNeighbour(blockItem, direction);
             
             if(otherBlock != null && otherBlock.BlockType != BlockType.Complete)
             {
-                SwipeBlocks(blockItem, otherBlock, index);
+                SwipeBlocks(blockItem, otherBlock);
             }
             else
             {
@@ -103,23 +103,23 @@ namespace _Code.Game.Board
             }
         }
 
-        private void SwipeBlocks(BlockItem blockItem, BlockItem otherBlock, int index)
+        private void SwipeBlocks(BlockItem blockItem, BlockItem otherBlock)
         {
             OnSwipe?.Invoke();
             
             var tempPos = blockItem.transform.position;
-            var otherIndex = Array.IndexOf(_blocks, otherBlock);
 
             blockItem.DoSwipeBlock(otherBlock.transform.position, swipeDuration);
             otherBlock.DoSwipeBlock(tempPos, swipeDuration);
 
-            _blocks[index] = otherBlock;
-            _blocks[otherIndex] = blockItem;
+            _board.UpdateBlocksArray(blockItem, otherBlock);
+            
+            
 
             _canSwipe = false;
             DOTween.Sequence().AppendInterval(swipeDuration).OnComplete(() =>
             {
-                _boardScoreHandler.CheckSwappedBlockRows(index, otherIndex);
+                _boardScoreHandler.CheckSwappedBlockRows(blockItem, otherBlock);
                 _canSwipe = true;
             });
         }

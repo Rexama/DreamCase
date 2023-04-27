@@ -41,6 +41,7 @@ namespace _Code.Buttons
         private void OnPlayButtonClicked()
         {
             LevelFolderDataHolder.Instance.SetLevelFolderData(_levelFolderData);
+            DOTween.KillAll();
             SceneManager.LoadScene("LevelScene3-Good");
         }
         

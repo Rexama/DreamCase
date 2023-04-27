@@ -13,7 +13,7 @@ namespace _Code.Game.UI
         private void Awake()
         {
             BoardSwipeHandler.OnSwipe += DecreaseMoveCount;
-            
+
             CacheComponents();
             UpdateMoveCountText();
         }

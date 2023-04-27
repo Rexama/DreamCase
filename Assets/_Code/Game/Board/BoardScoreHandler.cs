@@ -1,5 +1,6 @@
 ﻿using System;
 using _Code.Game.Block;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Code.Game.Board
@@ -13,7 +14,7 @@ namespace _Code.Game.Board
         private BlockScores _blockScores;
         private BoardGameEndHandler _boardGameEndHandler;
         
-        public static Action<int> OnRowCompleted;
+        public static Action<int> OnScoreGain;
 
         private void Start()
         {
@@ -28,8 +29,11 @@ namespace _Code.Game.Board
             _blockScores = Resources.Load<BlockScores>("BlockScores");
         }
 
-        public void CheckSwappedBlockRows(int blockIndex1, int blockIndex2)
+        public void CheckSwappedBlockRows(BlockItem block1, BlockItem block2)
         {
+            var blockIndex1 = Array.IndexOf(_board.Blocks, block1);
+            var blockIndex2 = Array.IndexOf(_board.Blocks, block2);
+            
             var rowFirstIndex1 = (blockIndex1 / _width) * _width;
             var rowFirstIndex2 = (blockIndex2 / _width) * _width;
 
@@ -39,7 +43,7 @@ namespace _Code.Game.Board
             {
                 CheckSwappedBlockRow(rowFirstIndex2);
             }
-            _boardGameEndHandler.CheckGameEnd();
+            _boardGameEndHandler.TryGameEnd();
         }
 
         private void CheckSwappedBlockRow(int rowStartIndex)
@@ -51,6 +55,7 @@ namespace _Code.Game.Board
             }
 
             CompleteRow(rowStartIndex);
+            _board.UpdateRowBlockCountsOnRowComplete(rowStartIndex,rowFirstBlockType);
         }
 
         private void CompleteRow(int rowStartIndex)
@@ -62,8 +67,10 @@ namespace _Code.Game.Board
                 _board.Blocks[i].CompleteBlock();
             }
             
-            OnRowCompleted?.Invoke(blockScore * _width);
+            
+            OnScoreGain?.Invoke(blockScore * _width);
             Score += blockScore * _width;
         }
+        
     }
 }
