@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 namespace _Code.Buttons
 {
-    public class LevelsButton : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
+    public class LevelsButton : ButtonObject
     {
-        private Button _button;
         public static Action OnLevelsButtonClickedEvent;
 
-        private void Awake()
+        
+        protected virtual void Awake()
         {
+            base.Awake();
+            
             ContinueButton.OnContinueButtonPressed += ActivateButton;
             
-            CacheComponents();
-            AddListeners();
         }
 
         private void OnDisable()
@@ -31,36 +31,15 @@ namespace _Code.Buttons
                 gameObject.SetActive(false);
             }
         }
-
-        private void CacheComponents()
-        {
-            _button = GetComponent<Button>();
-        }
         
-        private void AddListeners()
-        {
-            _button.onClick.AddListener(OnLevelsButtonClicked);
-        }
-        
-        
-        private void OnLevelsButtonClicked()
+        protected override void OnButtonPressed()
         {
             OnLevelsButtonClickedEvent?.Invoke();
         }
-        
+
         private void ActivateButton()
         { 
             gameObject.SetActive(true);
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            transform.DOScale(0.9f, 0.1f).SetEase(Ease.InOutSine);
-        }
-        
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            transform.DOScale(1f, 0.1f).SetEase(Ease.InOutSine);
         }
     }
 }

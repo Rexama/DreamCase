@@ -6,40 +6,14 @@ using UnityEngine.UI;
 
 namespace _Code.Buttons
 {
-    public class ContinueButton : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
+    public class ContinueButton : ButtonObject
     {
-        private Button _button;
         public static Action OnContinueButtonPressed;
 
-        private void Awake()
-        {
-            CacheComponents();
-            AddListeners();
-        }
-        
-        private void CacheComponents()
-        {
-            _button = GetComponent<Button>();
-        }
-        
-        private void AddListeners()
-        {
-            _button.onClick.AddListener(OnContinueButtonClicked);
-        }
-        
-        private void OnContinueButtonClicked()
+        protected override void OnButtonPressed()
         {
             OnContinueButtonPressed?.Invoke();
         }
-        
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            transform.DOScale(0.9f, 0.1f).SetEase(Ease.InOutSine);
-        }
-        
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            transform.DOScale(1f, 0.1f).SetEase(Ease.InOutSine);
-        }
+
     }
 }
