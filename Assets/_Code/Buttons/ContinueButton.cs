@@ -1,8 +1,4 @@
 using System;
-using DG.Tweening;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace _Code.Buttons
 {

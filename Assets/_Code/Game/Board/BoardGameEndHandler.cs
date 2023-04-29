@@ -2,9 +2,7 @@
 using _Code.Game.Block;
 using _Code.Game.UI;
 using _Code.LevelFolder;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace _Code.Game.Board
 {

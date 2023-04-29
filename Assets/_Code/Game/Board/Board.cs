@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using _Code.Game.Block;
 using _Code.LevelFolder;
 using UnityEngine;
-using UnityEngine.Android;
 
 namespace _Code.Game.Board
 {
@@ -12,14 +11,14 @@ namespace _Code.Game.Board
         [SerializeField] GameObject blockPrefab;
 
         public BlockItem[] Blocks { get; private set; }
-        public List<Dictionary<BlockType, int>> RowBlockCounts = new List<Dictionary<BlockType, int>>();
-        
+        public readonly List<Dictionary<BlockType, int>> RowBlockCounts = new List<Dictionary<BlockType, int>>();
+
         private LevelFolderData _levelData;
         public LevelFolderData LevelData => _levelData;
 
         private Border _border;
         private Transform _blocksParent;
-        
+
         private void Awake()
         {
             CacheComponents();
@@ -28,9 +27,6 @@ namespace _Code.Game.Board
         void Start()
         {
             PrepareBoard();
-
-            // TODO: Remove this
-            //PrintDic();
         }
 
         private void CacheComponents()
@@ -47,10 +43,10 @@ namespace _Code.Game.Board
 
             var parentPos = new Vector3((_levelData.GridWidth - 1) * -0.5f, (_levelData.GridHeight - 1) * -0.5f, 0);
             _blocksParent.transform.localPosition = parentPos;
-            
+
             for (int row = 0; row < _levelData.GridHeight; row++)
             {
-                var newRowCounts= new Dictionary<BlockType, int>();
+                var newRowCounts = new Dictionary<BlockType, int>();
                 for (int col = 0; col < _levelData.GridWidth; col++)
                 {
                     var pos = new Vector2(col, row);
@@ -59,7 +55,7 @@ namespace _Code.Game.Board
 
                     block.name = "Block " + row + "," + col;
                     Blocks[row * _levelData.GridWidth + col] = block;
-                    
+
                     if (newRowCounts.ContainsKey(block.BlockType))
                     {
                         newRowCounts[block.BlockType]++;
@@ -69,17 +65,19 @@ namespace _Code.Game.Board
                         newRowCounts.Add(block.BlockType, 1);
                     }
                 }
+
                 RowBlockCounts.Add(newRowCounts);
             }
         }
-        
+
         public BlockItem GetBlockNeighbour(BlockItem block, Direction direction)
         {
             var index = Array.IndexOf(Blocks, block);
-            
+
             switch (direction)
             {
-                case Direction.Right when index != Blocks.Length && index % _levelData.GridWidth != _levelData.GridWidth - 1:
+                case Direction.Right
+                    when index != Blocks.Length && index % _levelData.GridWidth != _levelData.GridWidth - 1:
                     return Blocks[index + 1];
                 case Direction.Left when index != 0 && index % _levelData.GridWidth != 0:
                     return Blocks[index - 1];
@@ -99,24 +97,21 @@ namespace _Code.Game.Board
 
             var rowIndex1 = index1 / _levelData.GridWidth;
             var rowIndex2 = index2 / _levelData.GridWidth;
-            
+
             RowBlockCounts[rowIndex1][block1.BlockType]--;
             RowBlockCounts[rowIndex2][block2.BlockType]--;
-            
+
             AddToDictionary(block2.BlockType, rowIndex1);
             AddToDictionary(block1.BlockType, rowIndex2);
             
-            
             Blocks[index1] = block2;
             Blocks[index2] = block1;
-
-            //PrintDic();
         }
-        
-        public void UpdateRowBlockCountsOnRowComplete(int rowStartIndex,BlockType blockType)
+
+        public void UpdateRowBlockCountsOnRowComplete(int rowStartIndex, BlockType blockType)
         {
             var rowIndex = rowStartIndex / _levelData.GridWidth;
-            RowBlockCounts[rowIndex][blockType]-= _levelData.GridWidth;
+            RowBlockCounts[rowIndex][blockType] -= _levelData.GridWidth;
         }
 
         private void AddToDictionary(BlockType blockType, int index)
@@ -128,21 +123,6 @@ namespace _Code.Game.Board
             else
             {
                 RowBlockCounts[index].Add(blockType, 1);
-            }
-        }
-
-        
-        //TODO: Remove this
-        private void PrintDic()
-        {
-            // TODO: Remove this
-            foreach (var element in RowBlockCounts)
-            {
-                foreach (var key in element.Keys)
-                {
-                    Debug.Log(key+" : "+element[key]);   
-                }
-                Debug.Log("----");
             }
         }
     }

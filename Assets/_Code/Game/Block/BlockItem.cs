@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace _Code.Game.Block
         public void PrepareBlock(BlockType blockType, Vector2 pos)
         {
             transform.localPosition = pos;
-            _spriteRenderer.sortingOrder = (int) (transform.localPosition.y + 5);
+            _spriteRenderer.sortingOrder = (int) (pos.y + 5);
             _spriteRenderer.sprite = _blockSprites.GetSprite(blockType);
             BlockType = blockType;
         }
@@ -35,10 +36,9 @@ namespace _Code.Game.Block
         {
             transform.DOMove(position, duration).OnComplete(() =>
             {
-                _spriteRenderer.sortingOrder = (int) (transform.localPosition.y + 5);
+                var localPosition = transform.localPosition;
+                _spriteRenderer.sortingOrder = (int) Math.Round(localPosition.y+5);
             });
-            
-            //transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
         }
         
         public void DoPunchBlock(Direction direction)

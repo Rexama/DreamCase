@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Code.LevelFolder;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Code.LevelCard
 {
@@ -53,6 +54,7 @@ namespace _Code.LevelCard
 
                 levelCard.SetUpLevelCard(newLevelCardData, levelFileData);
             }
+            transform.position = -Vector3.up * _levelCards.Count;
         }
 
         private void CreateDownloadedLevelCards()

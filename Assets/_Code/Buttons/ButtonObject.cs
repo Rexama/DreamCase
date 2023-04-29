@@ -9,6 +9,9 @@ namespace _Code.Buttons
     {
         protected Button Button;
 
+        private const float ButtonAnimationScaleDownValue = 0.9f;
+        private const float ButtonAnimationDurationValue = 0.1f;
+
         protected virtual void Awake()
         {
             CacheComponents();
@@ -29,7 +32,7 @@ namespace _Code.Buttons
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            transform.DOScale(0.9f, 0.1f).SetEase(Ease.InOutSine);
+            transform.DOScale(ButtonAnimationScaleDownValue, ButtonAnimationDurationValue).SetEase(Ease.InOutSine);
         }
 
         public void OnPointerUp(PointerEventData eventData)
