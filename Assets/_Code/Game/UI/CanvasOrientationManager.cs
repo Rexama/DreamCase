@@ -7,7 +7,7 @@ namespace _Code.Game.UI
         [SerializeField] private Transform landscapeBoardParent;
         [SerializeField] private Transform landscapePanelsGroup;
         [SerializeField] private Transform landscapeLevelTextParent;
-        
+
         public void SetUIObjectParents(UIParentHandler board, UIParentHandler movesPanel, UIParentHandler scorePanel, UIParentHandler hiScorePanel, UIParentHandler levelText)
         {
             board.SetParent(landscapeBoardParent);
@@ -16,7 +16,5 @@ namespace _Code.Game.UI
             hiScorePanel.SetParent(landscapePanelsGroup);
             levelText.SetParent(landscapeLevelTextParent);
         }
-        
-        
     }
 }

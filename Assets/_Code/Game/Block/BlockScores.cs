@@ -12,19 +12,14 @@ namespace _Code.Game.Block
 
         public int GetBlockScore(BlockType blockType)
         {
-            switch (blockType)
+            return blockType switch
             {
-                case BlockType.Red:
-                    return redBlockScore;
-                case BlockType.Green:
-                    return greenBlockScore;
-                case BlockType.Blue:
-                    return blueBlockScore;
-                case BlockType.Yellow:
-                    return yellowBlockScore;
-                default:
-                    return 0;
-            }
+                BlockType.Red => redBlockScore,
+                BlockType.Green => greenBlockScore,
+                BlockType.Blue => blueBlockScore,
+                BlockType.Yellow => yellowBlockScore,
+                _ => 0
+            };
         }
     }
 }

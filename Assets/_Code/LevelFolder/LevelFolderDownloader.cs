@@ -20,10 +20,11 @@ namespace _Code.LevelFolder
             StartCoroutine(TryDownloadLevelFolders());
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator TryDownloadLevelFolders()
         {
-            string persistentDataPath = Application.persistentDataPath;
-            int downloadedLevelCount = Directory.GetFiles(persistentDataPath).Length;
+            var persistentDataPath = Application.persistentDataPath;
+            var downloadedLevelCount = Directory.GetFiles(persistentDataPath).Length;
             var levelsToDownloadCount = _levelFolderUrLs.levelString.Count - _levelFolderUrLs.localStoredLevelCount;
 
             if (downloadedLevelCount == levelsToDownloadCount)

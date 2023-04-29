@@ -11,26 +11,18 @@ namespace _Code.Game.Block
         public Sprite blueBlockSprite;
         public Sprite yellowBlockSprite;
         public Sprite tickBlockSprite;
-        
+
         public Sprite GetSprite(BlockType type)
         {
-            switch (type)
+            return type switch
             {
-                case BlockType.Red:
-                    return redBlockSprite;
-                case BlockType.Green:
-                    return greenBlockSprite;
-                case BlockType.Blue:
-                    return blueBlockSprite;
-                case BlockType.Yellow:
-                    return yellowBlockSprite;
-                case BlockType.Complete:
-                    return tickBlockSprite;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                BlockType.Red => redBlockSprite,
+                BlockType.Green => greenBlockSprite,
+                BlockType.Blue => blueBlockSprite,
+                BlockType.Yellow => yellowBlockSprite,
+                BlockType.Complete => tickBlockSprite,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
     }
-    
-    
 }

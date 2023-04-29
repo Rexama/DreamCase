@@ -9,10 +9,10 @@ namespace _Code.Game.UI
     {
         private void OnEnable()
         {
-            DoScaleAniamtion();
+            DoScaleAnimation();
         }
 
-        private void DoScaleAniamtion()
+        private void DoScaleAnimation()
         {
             transform.DOScale(1.1f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         }

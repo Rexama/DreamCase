@@ -8,14 +8,18 @@ namespace _Code.Game.UI
     {
         private int _score;
         private TextMeshProUGUI _scoreText;
-        
 
         private void Awake()
         {
             BoardScoreHandler.OnScoreGain += IncreaseScore;
-            
-            _scoreText = GetComponentInChildren<TextMeshProUGUI>();
+
+            CacheComponents();
             SetScoreText(_score);
+        }
+
+        private void CacheComponents()
+        {
+            _scoreText = GetComponentInChildren<TextMeshProUGUI>();
         }
 
         private void OnDisable()
@@ -27,7 +31,7 @@ namespace _Code.Game.UI
         {
             _scoreText.text = score.ToString();
         }
-        
+
         private void IncreaseScore(int value)
         {
             _score += value;

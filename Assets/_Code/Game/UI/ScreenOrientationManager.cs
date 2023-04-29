@@ -16,7 +16,7 @@ namespace _Code.Game.UI
 
         private float _prevScreenWidth = Screen.width;
         private float _prevHeight = Screen.height;
-        
+
         private void Start()
         {
             HandleScreenOrientation();
@@ -43,7 +43,7 @@ namespace _Code.Game.UI
             }
             else //Portrait
             {
-               portraitCanvas.SetUIObjectParents(board, movesPanel, scorePanel, hiScorePanel, levelText);
+                portraitCanvas.SetUIObjectParents(board, movesPanel, scorePanel, hiScorePanel, levelText);
             }
         }
     }

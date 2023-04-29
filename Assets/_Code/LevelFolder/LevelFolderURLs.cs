@@ -9,17 +9,17 @@ namespace _Code.LevelFolder
         public int localStoredLevelCount;
         public string coreURL;
         public List<string> levelString;
-        
+
         public string GetLevelURL(int levelNumber)
         {
             return coreURL + levelString[levelNumber + localStoredLevelCount - 1];
         }
-        
+
         public string GetLevelPath(int level)
         {
-            if(level <= 10)
+            if (level <= 10)
             {
-                return Application.dataPath + "/Resources/Levels/RM_"+levelString[level - 1];
+                return Application.dataPath + "/Resources/Levels/RM_" + levelString[level - 1];
             }
             else
             {

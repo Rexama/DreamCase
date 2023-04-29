@@ -10,14 +10,5 @@ namespace _Code.LevelFolder
         public int GridHeight;
         public int MoveCount;
         public List<BlockType> Grid;
-
-        public LevelFolderData(int levelNumber, int gridWidth, int gridHeight, int moveCount, List<BlockType> grid)
-        {
-            LevelNumber = levelNumber;
-            GridWidth = gridWidth;
-            GridHeight = gridHeight;
-            MoveCount = moveCount;
-            Grid = grid;
-        }
     }
 }

@@ -33,7 +33,7 @@ namespace _Code.Game.UI
         {
             _moveCountText.text = _moveCount.ToString();
         }
-        
+
         private void DecreaseMoveCount()
         {
             _moveCount--;

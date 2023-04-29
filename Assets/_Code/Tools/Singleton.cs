@@ -25,7 +25,7 @@ namespace _Code.Tools
                     }
 
                     if (_instance != null) return _instance;
-                    
+
                     var obj = new GameObject
                     {
                         name = $"_{typeof(T).Name}"

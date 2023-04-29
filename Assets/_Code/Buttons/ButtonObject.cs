@@ -18,7 +18,7 @@ namespace _Code.Buttons
             AddListeners();
         }
 
-        private void CacheComponents()
+        protected virtual void CacheComponents()
         {
             Button = GetComponent<Button>();
         }

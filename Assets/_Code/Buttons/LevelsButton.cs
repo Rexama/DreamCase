@@ -6,7 +6,7 @@ namespace _Code.Buttons
     public class LevelsButton : ButtonObject
     {
         public static Action OnLevelsButtonClickedEvent;
-        
+
         protected override void Awake()
         {
             base.Awake();

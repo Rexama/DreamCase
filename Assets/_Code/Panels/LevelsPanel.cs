@@ -12,7 +12,7 @@ namespace _Code.Panels
         {
             LevelsButton.OnLevelsButtonClickedEvent += ShowLevelsPanel;
             ContinueButton.OnContinueButtonPressed += ShowLevelsPanel;
-            
+
             CacheComponents();
             OpenPanelIfNotFirstLoad();
         }
@@ -28,20 +28,21 @@ namespace _Code.Panels
             _levelsPanel = transform.GetChild(0).gameObject;
         }
 
-        public void OpenPanelIfNotFirstLoad()
+        private void OpenPanelIfNotFirstLoad()
         {
             if (!_firstLoad && PlayerPrefs.GetInt("New_HS", 0) <= 0)
             {
                 ShowLevelsPanel();
             }
+
             _firstLoad = false;
         }
-        
-        public void ShowLevelsPanel()
+
+        private void ShowLevelsPanel()
         {
             _levelsPanel.SetActive(true);
         }
-        
+
         public void HideLevelsPanel()
         {
             _levelsPanel.SetActive(false);

@@ -10,6 +10,5 @@ namespace _Code.Buttons
         {
             OnContinueButtonPressed?.Invoke();
         }
-
     }
 }

@@ -23,26 +23,19 @@ namespace _Code.LevelCard
             _highestScoreText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         }
 
-        public void SetUpLevelCard(LevelCardData levelCardData,LevelFolderData levelFolderData)
+        public void SetUpLevelCard(LevelCardData levelCardData, LevelFolderData levelFolderData)
         {
             _levelAndMovesText.text = $"Level {levelCardData.Level} - {levelCardData.Moves} Moves";
             _playButton.SetLevelFolderData(levelFolderData);
-            
+
             if (levelCardData.IsLocked)
             {
-                _playButton.SetInteractable(false);
+                _playButton.SetLocked(false);
                 _highestScoreText.text = "Locked Level";
                 return;
             }
-            
-            if (levelCardData.HighScore != -1)
-            {
-                _highestScoreText.text = $"Highest Score: {levelCardData.HighScore}";
-            }
-            else
-            {
-                _highestScoreText.text = "No Score";
-            }
+
+            _highestScoreText.text = levelCardData.HighScore != -1 ? $"Highest Score: {levelCardData.HighScore}" : "No Score";
         }
     }
 }

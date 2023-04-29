@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using _Code.Game.Block;
 using _Code.LevelFolder;
+using _Code.Tools;
 using UnityEngine;
 
 namespace _Code.Game.Board
 {
     public class Board : MonoBehaviour
     {
-        [SerializeField] GameObject blockPrefab;
+        [SerializeField] private GameObject blockPrefab;
 
         public BlockItem[] Blocks { get; private set; }
         public readonly List<Dictionary<BlockType, int>> RowBlockCounts = new List<Dictionary<BlockType, int>>();
@@ -103,7 +104,7 @@ namespace _Code.Game.Board
 
             AddToDictionary(block2.BlockType, rowIndex1);
             AddToDictionary(block1.BlockType, rowIndex2);
-            
+
             Blocks[index1] = block2;
             Blocks[index2] = block1;
         }

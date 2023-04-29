@@ -1,5 +1,6 @@
 ﻿using System;
 using _Code.Game.Block;
+using _Code.Tools;
 using DG.Tweening;
 using UnityEngine;
 
@@ -12,16 +13,15 @@ namespace _Code.Game.Board
 
         private Board _board;
         private Camera _camera;
-        private BlockItem[] _blocks;
         private BoardScoreHandler _boardScoreHandler;
-        
+
         private bool _canSwipe = true;
         private Vector2 _swipeStartPos;
         private bool _isSwiping = false;
         private BlockItem _selectedBlockItem;
-        
+
         public static Action OnSwipe;
-        
+
         private void Awake()
         {
             CacheComponents();
@@ -30,17 +30,15 @@ namespace _Code.Game.Board
         private void CacheComponents()
         {
             _board = GetComponent<Board>();
-            _blocks = _board.Blocks;
             _camera = Camera.main;
             _boardScoreHandler = GetComponent<BoardScoreHandler>();
-            
         }
 
         private void Update()
         {
-            if(_canSwipe) HandleMouseInput();
+            if (_canSwipe) HandleMouseInput();
         }
-        
+
         void HandleMouseInput()
         {
             if (Input.GetMouseButtonDown(0))
@@ -73,7 +71,7 @@ namespace _Code.Game.Board
             var swipeDistance = Vector2.Distance(_swipeStartPos, swipeEndPos);
 
             if (!_isSwiping || !(swipeDistance > minSwipeDistance)) return;
-            
+
             var swipeDirection = swipeEndPos - _swipeStartPos;
 
             if (Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y))
@@ -84,16 +82,16 @@ namespace _Code.Game.Board
             {
                 TrySwipeBlocks(_selectedBlockItem, swipeDirection.y > 0 ? Direction.Up : Direction.Down);
             }
+
             _isSwiping = false;
         }
 
 
         private void TrySwipeBlocks(BlockItem blockItem, Direction direction)
         {
-            
             var otherBlock = _board.GetBlockNeighbour(blockItem, direction);
-            
-            if(otherBlock != null && otherBlock.BlockType != BlockType.Complete)
+
+            if (otherBlock != null && otherBlock.BlockType != BlockType.Complete)
             {
                 SwipeBlocks(blockItem, otherBlock);
             }
@@ -106,15 +104,13 @@ namespace _Code.Game.Board
         private void SwipeBlocks(BlockItem blockItem, BlockItem otherBlock)
         {
             OnSwipe?.Invoke();
-            
+
             var tempPos = blockItem.transform.position;
 
             blockItem.DoSwipeBlock(otherBlock.transform.position, swipeDuration);
             otherBlock.DoSwipeBlock(tempPos, swipeDuration);
 
             _board.UpdateBlocksArray(blockItem, otherBlock);
-            
-            
 
             _canSwipe = false;
             DOTween.Sequence().AppendInterval(swipeDuration).OnComplete(() =>

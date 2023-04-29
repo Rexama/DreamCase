@@ -13,7 +13,7 @@ namespace _Code.Game.Board
         private Board _board;
         private BlockScores _blockScores;
         private BoardGameEndHandler _boardGameEndHandler;
-        
+
         public static Action<int> OnScoreGain;
 
         private void Start()
@@ -33,7 +33,7 @@ namespace _Code.Game.Board
         {
             var blockIndex1 = Array.IndexOf(_board.Blocks, block1);
             var blockIndex2 = Array.IndexOf(_board.Blocks, block2);
-            
+
             var rowFirstIndex1 = (blockIndex1 / _width) * _width;
             var rowFirstIndex2 = (blockIndex2 / _width) * _width;
 
@@ -43,6 +43,7 @@ namespace _Code.Game.Board
             {
                 CheckSwappedBlockRow(rowFirstIndex2);
             }
+
             _boardGameEndHandler.TryGameEnd();
         }
 
@@ -55,22 +56,20 @@ namespace _Code.Game.Board
             }
 
             CompleteRow(rowStartIndex);
-            _board.UpdateRowBlockCountsOnRowComplete(rowStartIndex,rowFirstBlockType);
+            _board.UpdateRowBlockCountsOnRowComplete(rowStartIndex, rowFirstBlockType);
         }
 
         private void CompleteRow(int rowStartIndex)
         {
             var blockScore = _blockScores.GetBlockScore(_board.Blocks[rowStartIndex].BlockType);
-            
+
             for (int i = rowStartIndex; i < rowStartIndex + _width; i++)
             {
                 _board.Blocks[i].CompleteBlock();
             }
-            
-            
+
             OnScoreGain?.Invoke(blockScore * _width);
             Score += blockScore * _width;
         }
-        
     }
 }
